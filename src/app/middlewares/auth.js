@@ -1,34 +1,33 @@
-const authConfig = require('../../config/auth')
-const crypto = require('crypto')
-const verify = crypto.createVerify('SHA256')
+const authConfig = require("../../config/auth");
+const crypto = require("crypto");
 
 module.exports = async (req, res, next) => {
-  const authHeader = req.headers.authorization
+  const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return res.status(401).json({ error: 'Token not provided' })
+    return res.status(401).json({ error: "Token not provided" });
   }
 
-  const [, token] = authHeader.split(' ')
+  const [, token] = authHeader.split(" ");
 
   try {
-    const jwtHeader = token.split('.')[0]
-    const jwtPayload = token.split('.')[1]
-    const jwtSignature = token.split('.')[2]
+    const jwtHeader = token.split(".")[0];
+    const jwtPayload = token.split(".")[1];
+    const jwtSignature = token.split(".")[2];
 
-    const data = jwtHeader + '.' + jwtPayload
+    const data = jwtHeader + "." + jwtPayload;
 
     const signatureValidator = crypto
-      .createHmac('sha256', authConfig.secret)
+      .createHmac("sha256", authConfig.secret)
       .update(data)
-      .digest('base64')
+      .digest("base64");
 
     if (signatureValidator !== jwtSignature) {
-      return res.status(401).json({ error: 'Invalid token' })
+      return res.status(401).json({ error: "Invalid token" });
     }
 
-    return next()
+    return next();
   } catch (err) {
-    return res.status(401).json({ error: 'Invalid token' })
+    return res.status(401).json({ error: "Invalid token" });
   }
-}
+};

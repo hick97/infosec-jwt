@@ -37,7 +37,7 @@
 
 ```bash
 curl --request POST \
-  --url http://localhost:3001/session \
+  --url https://infosec-jwt.herokuapp.com/session \
   --header 'alg: HS256' \
   --header 'content-type: application/json' \
   --header 'typ: JWT' \
@@ -51,7 +51,7 @@ curl --request POST \
 
 ```bash
 curl --request POST \
-  --url http://localhost:3001/session \
+  --url https://infosec-jwt.herokuapp.com/session \
   --header 'alg: HS256' \
   --header 'content-type: application/json' \
   --header 'typ: JWT' \
